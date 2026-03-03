@@ -12,10 +12,10 @@ public class Lottery0Main {
 //        Lottery2Predict predict = new Lottery2Predict();
 //        predict.exec();
 
-        Lottery3PastStats pastStats = new Lottery3PastStats();
-        pastStats.exec();
+//        Lottery3PastStats pastStats = new Lottery3PastStats();
+//        pastStats.exec();
 
-//        Lottery4Evaluate evaluation = new Lottery4Evaluate();
-//        evaluation.exec();
+        Lottery4Evaluate evaluation = new Lottery4Evaluate();
+        evaluation.exec();
     }
 }
