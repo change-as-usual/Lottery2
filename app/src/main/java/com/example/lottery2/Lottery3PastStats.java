@@ -8,8 +8,8 @@ public class Lottery3PastStats {
     public void exec() throws IOException {
         int[][] pastResults = Lottery0Utils.loadPastResults();
 
-        final int limit = 60;
-        scoreStats(pastResults, limit);
+//        final int limit = 60;
+//        scoreStats(pastResults, limit);
 
         final int limit2 = 352;
         numStats(pastResults, limit2, false, 1);
@@ -66,7 +66,7 @@ public class Lottery3PastStats {
                 System.out.printf("%4s", preNotHitTime[pastResults[i][j] - 1] + ",");
                 preCount22[j] = preNotHitTime[pastResults[i][j] - 1];
             }
-            System.out.print(" ");
+            System.out.print("  ");
             System.out.printf("%4s", sufNotHitTime[pastResults[i][6] - 1] + ",");
             System.out.print(" ]");
 
@@ -75,14 +75,16 @@ public class Lottery3PastStats {
             for (int j = 0; j < 6; j++) {
                 System.out.printf("%4s", preCount22[j] + ",");
             }
+            System.out.print("  ");
+            System.out.printf("%4s", sufNotHitTime[pastResults[i][6] - 1] + ",");
             System.out.print(" ]");
 
             // 区间是否命中
             System.out.print(" : [");
-            int[] preBallRange = new int[3];
+            int[] preBallRange = new int[11];
             int[] sufBallRange = new int[4];
             for (int j = 0; j < 6; j++) {
-                preBallRange[(pastResults[i][j] - 1) / 11] += 1;
+                preBallRange[(pastResults[i][j] - 1) / 3] += 1;
             }
             sufBallRange[((pastResults[i][6] - 1) / 4)] += 1;
             int preEmptyRangeCount = 0;
@@ -94,7 +96,7 @@ public class Lottery3PastStats {
                     preEmptyRangeCount += 1;
                 }
             }
-            System.out.print(" (" + (3 - preEmptyRangeCount) + "Y" + preEmptyRangeCount + "N), ");
+            System.out.print(" (" + (11 - preEmptyRangeCount) + "Y" + preEmptyRangeCount + "N), ");
             for (int j : sufBallRange) {
                 if (j > 0) {
                     System.out.print(" Y,");
@@ -187,25 +189,25 @@ public class Lottery3PastStats {
         );
         System.out.print("-".repeat(3));
         System.out.print("|");
-        for (int i = 0; i < 3; i++) {
-            System.out.print("-".repeat(55));
+        for (int i = 0; i < 11; i++) {
+            System.out.print("-".repeat(22));
             System.out.print("|");
         }
         System.out.println();
         int printBallCount = 0;
         int notHitTime = 0;
-        StringBuilder[] rangeBallSb = new StringBuilder[3];
-        for (int i = 0; i < 3; i++) {
-            rangeBallSb[i] = new StringBuilder(60);
+        StringBuilder[] rangeBallSb = new StringBuilder[11];
+        for (int i = 0; i < 11; i++) {
+            rangeBallSb[i] = new StringBuilder(22);
         }
         while (printBallCount < 33) {
-            for (int rangeIndex = 0; rangeIndex < 3; rangeIndex++) {
+            for (int rangeIndex = 0; rangeIndex < 11; rangeIndex++) {
                 rangeBallSb[rangeIndex].setLength(0);
-                for (int i = 0; i < 11; i++) {
-                    final int ballIndex = rangeIndex * 11 + i;
+                for (int i = 0; i < 3; i++) {
+                    final int ballIndex = rangeIndex * 3 + i;
                     final int ballNum = ballIndex + 1;
                     if (preNotHitTime[ballIndex] == notHitTime) {
-                        rangeBallSb[rangeIndex].append("  ").append(ballNum);
+                        rangeBallSb[rangeIndex].append(" ").append(ballNum);
                         if (printMore2 > 0) {
                             LinkedList<Integer> preList = preNotHitTimeHistory[ballIndex];
                             int sum = 0;
@@ -224,24 +226,24 @@ public class Lottery3PastStats {
             }
 
             boolean hasBall = false;
-            for (int i = 0; i < 3; i++) {
-                if (rangeBallSb[i].length() > 0) {
+            for (StringBuilder sb : rangeBallSb) {
+                if (!sb.isEmpty()) {
                     hasBall = true;
                     break;
                 }
             }
             if (hasBall) {
                 System.out.printf("%4s", notHitTime + ":|");
-                for (int i = 0; i < 3; i++) {
-                    System.out.printf("%54s", rangeBallSb[i]);
-                    System.out.print(" |");
+                for (int i = 0; i < 11; i++) {
+                    System.out.printf("%22s", rangeBallSb[i]);
+                    System.out.print("|");
                 }
                 System.out.println();
 
                 System.out.print("-".repeat(3));
                 System.out.print("|");
-                for (int i = 0; i < 3; i++) {
-                    System.out.print("-".repeat(55));
+                for (int i = 0; i < 11; i++) {
+                    System.out.print("-".repeat(22));
                     System.out.print("|");
                 }
                 System.out.println();
