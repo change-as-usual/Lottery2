@@ -8,8 +8,8 @@ public class Lottery3PastStats {
     public void exec() throws IOException {
         int[][] pastResults = Lottery0Utils.loadPastResults();
 
-//        final int limit = 60;
-//        scoreStats(pastResults, limit);
+        final int limit = 60;
+        scoreStats(pastResults, limit);
 
         final int limit2 = 352;
         numStats(pastResults, limit2, false, 1);
