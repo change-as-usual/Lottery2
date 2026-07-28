@@ -73,10 +73,11 @@ public class Lottery0Utils {
         prizeMap.put("4+0", 10);
         prizeMap.put("3+1", 10);
         // 六等奖
-        prizeMap.put("3+0", 5);
         prizeMap.put("2+1", 5);
         prizeMap.put("1+1", 5);
         prizeMap.put("0+1", 5);
+        //福运奖，当前无
+        prizeMap.put("3+0", 0);
         // 无奖
         prizeMap.put("2+0", 0);
         prizeMap.put("1+0", 0);
