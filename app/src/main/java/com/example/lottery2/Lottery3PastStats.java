@@ -12,7 +12,7 @@ public class Lottery3PastStats {
         scoreStats(pastResults, limit);
 
         final int limit2 = 352;
-        numStats(pastResults, limit2, false, 1);
+        numStats(pastResults, limit2, false);
 //        numStats2(pastResults, limit2);
     }
 
@@ -31,7 +31,7 @@ public class Lottery3PastStats {
         }
     }
 
-    private void numStats(int[][] pastResults, int statsCount, boolean printMore, int printMore2) {
+    private void numStats(int[][] pastResults, int statsCount, boolean printMore) {
         statsCount = Math.min(pastResults.length, statsCount);
 
         int[] preHitCount = new int[33];
@@ -180,17 +180,35 @@ public class Lottery3PastStats {
         }
         System.out.println();
 
-        System.out.println("连续未现期数归并: 当前未现期数: 前区球号[再前" + printMore2 + "次合计,出现次数合计]"
+        System.out.println();
+        System.out.println("连续未现期数归并: 当前未现期数: 前区球号[再前1次合计,出现次数合计]"
                 + " ("
                 + statsCount + "*2/11=" + (statsCount * 2 / 11) + "~" + ((statsCount * 2) % 11) // 每个球平均出现次数=statsCount*6/33
                 + ", "
                 + statsCount + "/16=" + (statsCount / 16) + "~" + (statsCount % 16) // 每个球平均出现次数=statsCount*1/16
                 + ")"
         );
+
+        int[] rangeBallPrintLength = new int[11];
+        for (int i = 0; i < 11; i++) {
+            int ballNotHitTime0 = preNotHitTime[i * 3];
+            int ballNotHitTime1 = preNotHitTime[i * 3 + 1];
+            int ballNotHitTime2 = preNotHitTime[i * 3 + 2];
+            if (ballNotHitTime0 == ballNotHitTime1 && ballNotHitTime1 == ballNotHitTime2) {
+                rangeBallPrintLength[i] = 3;
+            } else if (ballNotHitTime0 == ballNotHitTime1
+                    || ballNotHitTime0 == ballNotHitTime2
+                    || ballNotHitTime1 == ballNotHitTime2) {
+                rangeBallPrintLength[i] = 2;
+            } else {
+                rangeBallPrintLength[i] = 1;
+            }
+        }
+
         System.out.print("-".repeat(3));
         System.out.print("|");
         for (int i = 0; i < 11; i++) {
-            System.out.print("-".repeat(22));
+            System.out.print("-".repeat(1 + 10 * rangeBallPrintLength[i]));
             System.out.print("|");
         }
         System.out.println();
@@ -207,19 +225,13 @@ public class Lottery3PastStats {
                     final int ballIndex = rangeIndex * 3 + i;
                     final int ballNum = ballIndex + 1;
                     if (preNotHitTime[ballIndex] == notHitTime) {
-                        rangeBallSb[rangeIndex].append(" ").append(ballNum);
-                        if (printMore2 > 0) {
-                            LinkedList<Integer> preList = preNotHitTimeHistory[ballIndex];
-                            int sum = 0;
-                            for (int j = 0; j < printMore2 && j < preList.size(); j++) {
-                                sum += preList.get(j);
-                            }
-                            rangeBallSb[rangeIndex].append("[")
-                                    .append(sum)
-                                    .append(",")
-                                    .append(preHitCount[ballIndex])
-                                    .append("]");
-                        }
+                        rangeBallSb[rangeIndex].append(" ")
+                                .append(ballNum)
+                                .append("[")
+                                .append(preNotHitTimeHistory[ballIndex].get(0))
+                                .append(",")
+                                .append(preHitCount[ballIndex])
+                                .append("]");
                         printBallCount += 1;
                     }
                 }
@@ -235,7 +247,7 @@ public class Lottery3PastStats {
             if (hasBall) {
                 System.out.printf("%4s", notHitTime + ":|");
                 for (int i = 0; i < 11; i++) {
-                    System.out.printf("%22s", rangeBallSb[i]);
+                    System.out.printf("%" + (1 + 10 * rangeBallPrintLength[i]) + "s", rangeBallSb[i]);
                     System.out.print("|");
                 }
                 System.out.println();
@@ -243,7 +255,7 @@ public class Lottery3PastStats {
                 System.out.print("-".repeat(3));
                 System.out.print("|");
                 for (int i = 0; i < 11; i++) {
-                    System.out.print("-".repeat(22));
+                    System.out.print("-".repeat(1 + 10 * rangeBallPrintLength[i]));
                     System.out.print("|");
                 }
                 System.out.println();
