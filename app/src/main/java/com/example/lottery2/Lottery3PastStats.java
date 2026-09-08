@@ -47,7 +47,7 @@ public class Lottery3PastStats {
             sufNotHitTimeHistory[i] = new LinkedList<>();
         }
         System.out.println();
-        System.out.println("每一期[号码]:[连续未现次数]:[区间是否命中]:[出现次数合计]");
+        System.out.println("每一期[号码]:[连续未现次数]:[区间是否命中]:[出现次数合计]:[未现特征分布]");
         for (int i = statsCount - 1, c = 1; i >= 0; i--, c++) {
             System.out.printf("%4s", c);
             // 号码
@@ -144,6 +144,26 @@ public class Lottery3PastStats {
             sufHitCount[ballIndex] += 1;
             sufNotHitTimeHistory[ballIndex].addFirst(sufNotHitTime[ballIndex] - 1);
             sufNotHitTime[ballIndex] = 0;
+
+            // 未现特征分布
+            //TODO:垃圾代码
+            System.out.print(" : [");
+            int notHitTime = 0;
+            int checkBallCount = 0;
+            while(checkBallCount < 33) {
+                int count = 0;
+                for (int j = 0; j < 33; j++) {
+                    if (preNotHitTime[j] == notHitTime) {
+                        count += 1;
+                        checkBallCount += 1;
+                    }
+                }
+                if (count > 0) {
+                    System.out.printf("%6s", notHitTime + ":" + count + ",");
+                }
+                notHitTime += 1;
+            }
+            System.out.print(" ]");
 
             System.out.println();
         }
