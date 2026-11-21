@@ -150,7 +150,7 @@ public class Lottery3PastStats {
             System.out.print(" : [");
             int notHitTime = 0;
             int checkBallCount = 0;
-            while(checkBallCount < 33) {
+            while (checkBallCount < 33) {
                 int count = 0;
                 for (int j = 0; j < 33; j++) {
                     if (preNotHitTime[j] == notHitTime) {
@@ -159,7 +159,8 @@ public class Lottery3PastStats {
                     }
                 }
                 if (count > 0) {
-                    System.out.printf("%6s", notHitTime + ":" + count + ",");
+                    //System.out.printf("%6s", notHitTime + ":" + count + ",");
+                    System.out.printf("%4s", ":" + count + ",");
                 }
                 notHitTime += 1;
             }
